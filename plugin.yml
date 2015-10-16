@@ -1,0 +1,22 @@
+name: iParticles
+version: 1.1.0
+main: me.i_Jedi.iParticles.Main
+author: i_Jedi
+website: www.ijedi.me
+commands:
+  IPARTICLES:
+    description: Opens the particle menu.
+    usage: /iparticles
+
+permissions:
+  iparticles.*:
+    children:
+      iparticles.command: true
+      iparticles.arrow: true
+      iparticles.player: true
+  iparticles.command:
+    desctioption: Give access to use /iparticles
+  iparticles.arrow:
+    description: Give permission to use arrow particles.
+  iparticles.player:
+    description: Give permission to use player particles.
