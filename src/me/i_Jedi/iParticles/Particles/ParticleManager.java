@@ -112,7 +112,7 @@ public class ParticleManager {
                                         0f, 0f, 0f, mod, count);
 
                                 //Send packet to nearby players
-                                for (Entity e : arrow.getNearbyEntities(50, 50, 50)) {
+                                for (Entity e : arrow.getNearbyEntities(48, 48, 48)) {
                                     if (e instanceof Player) {
                                         Player p = (Player) e;
                                         ((CraftPlayer) p).getHandle().playerConnection.sendPacket(particlePacket);
@@ -133,37 +133,40 @@ public class ParticleManager {
                 public void run() {
                     //Loop through players in playerlist
                     for (Player player : playerParticleHM.keySet()) {
-                        PlayerInfo pInfo = playerParticleHM.get(player);
-                        //Try to get player's particle
-                        try {
-
-                            EnumParticle particle = pInfo.getPlayerParticle();
-
-                            //Get location
-                            Location location;
+                        //Check if player is dead
+                        if(!player.isDead()){
+                            PlayerInfo pInfo = playerParticleHM.get(player);
+                            //Try to get player's particle
                             try {
-                                location = pInfo.getNextLocationPlayer(count);
-                                count++;
-                            } catch (IndexOutOfBoundsException e) {
 
-                                count = 0;
-                                location = pInfo.getNextLocationPlayer(count);
-                            }
+                                EnumParticle particle = pInfo.getPlayerParticle();
 
-                            //Create packet
-                            float mod = pInfo.getPlayerMod();
-                            int count = pInfo.getPlayerCount();
-                            PacketPlayOutWorldParticles packet = new PacketPlayOutWorldParticles(particle, true, (float) location.getX(), (float) location.getY(),
-                                    (float) location.getZ(), 0f, 0f, 0f, mod, count);
-                            //Send to player's withing 32 blocks
-                            for (Entity e : player.getNearbyEntities(32, 32, 32)) {
-                                if (e instanceof Player) {
-                                    Player p = (Player) e;
-                                    ((CraftPlayer) p).getHandle().playerConnection.sendPacket(packet);
+                                //Get location
+                                Location location;
+                                try {
+                                    location = pInfo.getNextLocationPlayer(count);
+                                    count++;
+                                } catch (IndexOutOfBoundsException e) {
+
+                                    count = 0;
+                                    location = pInfo.getNextLocationPlayer(count);
                                 }
+
+                                //Create packet
+                                float mod = pInfo.getPlayerMod();
+                                int count = pInfo.getPlayerCount();
+                                PacketPlayOutWorldParticles packet = new PacketPlayOutWorldParticles(particle, true, (float) location.getX(), (float) location.getY(),
+                                        (float) location.getZ(), 0f, 0f, 0f, mod, count);
+                                //Send to player's withing 32 blocks
+                                for (Entity e : player.getNearbyEntities(48, 48, 48)) {
+                                    if (e instanceof Player) {
+                                        Player p = (Player) e;
+                                        ((CraftPlayer) p).getHandle().playerConnection.sendPacket(packet);
+                                    }
+                                }
+                                ((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
+                            } catch (NullPointerException npe) {
                             }
-                            ((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
-                        } catch (NullPointerException npe) {
                         }
                     }
                 }

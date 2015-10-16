@@ -2,6 +2,7 @@ package me.i_Jedi.iParticles;
 
 import me.i_Jedi.iParticles.Particles.Particles;
 import net.minecraft.server.v1_8_R3.EnumParticle;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -33,6 +34,11 @@ public class PlayerInfo {
     private int playerCount = 0;
     private boolean isPlayerCircle, isPlayerSpiral;
 
+    //Player Kill Particles Vars
+    private String killParticle;
+    private float killMod = 0;
+    private int killCount = 0;
+
     //Constructor
     public PlayerInfo(Player player, JavaPlugin plugin){
         this.player = player;
@@ -57,6 +63,13 @@ public class PlayerInfo {
             this.isPlayerSpiral = config.getBoolean("playerParticle.isSpiral");
         }catch(NullPointerException npe){} //Do nothing
 
+        //Get kill stuff
+        try{
+            this.killParticle = config.getString("killParticle.particle");
+            this.killCount = particles.getKillCount(killParticle);
+            this.killMod = particles.getKillMod(killParticle);
+        }catch(NullPointerException npe){} //Do nothing
+
     }
 
     //Save file
@@ -71,7 +84,7 @@ public class PlayerInfo {
     // ******************** ARROW TRAILS PARTICLES ********************
     //Get arrow particle
     public EnumParticle getArrowParticle(){
-        return particles.arrowToParticle(config.getString("arrowParticle.particle"));
+        return particles.arrowToParticle(arrowParticle);
     }
 
     //Set arrow particle
@@ -105,7 +118,7 @@ public class PlayerInfo {
     // ******************** PLAYER PARTICLES ********************
     //Get body particle
     public EnumParticle getPlayerParticle(){
-        return particles.playerToParticle(config.getString("playerParticle.particle"));
+        return particles.playerToParticle(playerParticle);
     }
 
     //Set body particle
@@ -215,6 +228,61 @@ public class PlayerInfo {
         }
         return locList;
     }
+
+    // ******************** KILL PARTICLES ********************
+    //Get kill particle
+    public EnumParticle getKillParticle(){
+        return particles.killToParticle(killParticle);
+    }
+
+    //Set kill particle
+    public void setKillParticle(String name){
+        config.set("killParticle.particle", name);
+        killParticle = name;
+        killCount = particles.getKillCount(name);
+        killMod = particles.getKillMod(name);
+        save();
+    }
+
+    //Has kill particle
+    public boolean hasKillParticle(){
+        if(killParticle.equals("CLEAR") || killParticle.isEmpty()){
+            return false;
+        }else{
+            return true;
+        }
+    }
+
+    //Get particle location list
+    // Use makePlayerSpiral & makePlayerCircle for these
+    public List<Location> getKillLocations(Location location){
+        //Check for pattern
+        EnumParticle particle = particles.killToParticle(killParticle);
+        if(particles.getStillKillList().contains(particle)){
+            List<Location> locList = new ArrayList<>();
+            locList.add(new Location(location.getWorld(), location.getX(), location.getY() + 1, location.getZ()));
+            return locList;
+
+        }else if(particles.getSpiralKillList().contains(particle)){
+            return makePlayerSpiral(location, .75);
+
+        }else{ //Default is circle
+            return makePlayerCircle(location, .75);
+        }
+
+    }
+
+    //Get kill mod
+    public float getKillMod(){
+        return killMod;
+    }
+
+    //Get kill cound
+    public int getKillCount(){
+        return killCount;
+    }
+
+
 
 
 

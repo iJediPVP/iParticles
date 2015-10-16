@@ -1,9 +1,6 @@
 package me.i_Jedi.iParticles.Listeners;
 
-import me.i_Jedi.iParticles.Inventories.ArrowInventory;
-import me.i_Jedi.iParticles.Inventories.MainInventory;
-import me.i_Jedi.iParticles.Inventories.PlayerInventory;
-import me.i_Jedi.iParticles.Inventories.PlayerOptionsInventory;
+import me.i_Jedi.iParticles.Inventories.*;
 import me.i_Jedi.iParticles.Particles.Particles;
 import me.i_Jedi.iParticles.Particles.ParticleManager;
 import me.i_Jedi.iParticles.PlayerInfo;
@@ -23,7 +20,7 @@ public class InvClickEvent implements Listener {
 
     //Variables
     private JavaPlugin plugin;
-    private String mainName, arrowName, playerName, playerOpName;
+    private String mainName, arrowName, playerName, playerOpName, killName;
 
     //Constructor
     public InvClickEvent(JavaPlugin plugin){
@@ -35,7 +32,7 @@ public class InvClickEvent implements Listener {
         arrowName = new ArrowInventory().getName();
         playerName = new PlayerInventory().getName();
         playerOpName = new PlayerOptionsInventory().getName();
-
+        killName = new KillInventory().getName();
     }
 
     //Event
@@ -67,20 +64,30 @@ public class InvClickEvent implements Listener {
                         player.openInventory(new ArrowInventory().getInventory());
                         player.playSound(player.getLocation(), Sound.SHOOT_ARROW, 7, 1);
                     }else{
-                        player.sendMessage(ChatColor.GREEN + "" + ChatColor.BOLD + "[iParticles] " + ChatColor.RED + "You do not have permission to use this command.");
+                        player.sendMessage(ChatColor.GREEN + "" + ChatColor.BOLD + "[iParticles] " + ChatColor.RED + "You do not have permission to use this.");
                     }
 
                     event.setCancelled(true);
-                }else if(itemName.equals("Player Particles")){
+                }else if(itemName.equals("Player Particles")) {
                     //Check for perms
-                    if(player.hasPermission("iparticles.player")){
+                    if (player.hasPermission("iparticles.player")) {
                         //Open
                         player.openInventory(new PlayerInventory().getInventory());
                         player.playSound(player.getLocation(), Sound.VILLAGER_IDLE, 7, 1);
-                    }else{
-                        player.sendMessage(ChatColor.GREEN + "" + ChatColor.BOLD + "[iParticles] " + ChatColor.RED + "You do not have permission to use this command.");
+                    } else {
+                        player.sendMessage(ChatColor.GREEN + "" + ChatColor.BOLD + "[iParticles] " + ChatColor.RED + "You do not have permission to use this.");
                     }
 
+                    event.setCancelled(true);
+                }else if(itemName.equals("Kill Particles")){
+                    //Check for perms
+                    if(player.hasPermission("iparticles.kill")){
+                        //Open
+                        player.openInventory(new KillInventory().getInventory());
+                        //SOUND HERE
+                    }else{
+                        player.sendMessage(ChatColor.GREEN + "" + ChatColor.BOLD + "[iParticles] " + ChatColor.RED + "You do not have permission to use this.");
+                    }
                     event.setCancelled(true);
                 }else if(itemName.equals("EXIT")){
                     //Close
@@ -104,7 +111,6 @@ public class InvClickEvent implements Listener {
 
                 }else if(itemName.equals("CLEAR")){
                     //Remove arrow particles from player
-                    EnumParticle particle = new Particles(plugin).arrowToParticle(itemName);
                     new PlayerInfo(player, plugin).setArrowParticle(itemName);
                     //Remove from particle manager & send message
                     new ParticleManager(plugin).removeArrowPlayer(player);
@@ -163,7 +169,6 @@ public class InvClickEvent implements Listener {
                     return;
                 }else if(itemName.equals("CLEAR")){
                     //Remove particles from player
-                    EnumParticle particle = new Particles(plugin).playerToParticle(itemName);
                     new PlayerInfo(player, plugin).setPlayerParticle(itemName);
 
                     //Remove from ParticleManager & send message
@@ -213,6 +218,37 @@ public class InvClickEvent implements Listener {
                     player.sendMessage(ChatColor.GREEN + "" + ChatColor.BOLD + "[iParticles] " +
                             ChatColor.GOLD + "Particle pattern set to: " + event.getCurrentItem().getItemMeta().getDisplayName());
                 }
+                event.setCancelled(true);
+
+            //KILL INVENTORY
+            }else if(invName.equals(killName)){
+
+                //Check itemName
+                if(itemName.equals("BACK")){
+                    //Return to main inv
+                    player.openInventory(new MainInventory().getInventory());
+                    Location loc = player.getLocation();
+                    PacketPlayOutNamedSoundEffect sound = new PacketPlayOutNamedSoundEffect("random.click", loc.getX(), loc.getY(), loc.getZ(), 1, 63);
+                    ((CraftPlayer) player).getHandle().playerConnection.sendPacket(sound);
+                }else if(itemName.equals("CLEAR")){
+                    //Remove particles from player
+                    new PlayerInfo(player, plugin).setKillParticle(itemName);
+
+                    //Remove from ParticleManager & send message
+                    player.sendMessage(ChatColor.GREEN + "" + ChatColor.BOLD + "[iParticles] " +
+                            ChatColor.GOLD + "Your kill particles have been reset!");
+                    player.playSound(player.getLocation(), Sound.SPLASH, 7, 1);
+                    event.setCancelled(true);
+                    return;
+                }
+                //ELSE save the particles to the player
+                PlayerInfo pInfo = new PlayerInfo(player, plugin);
+                pInfo.setKillParticle(itemName);
+
+                //Add to ParticleManager & send message
+                player.sendMessage(ChatColor.GREEN + "" + ChatColor.BOLD + "[iParticles] " +
+                        ChatColor.GOLD + "Kill Particles set to: " + event.getCurrentItem().getItemMeta().getDisplayName() + ChatColor.GOLD + "!");
+                //SOUND HERE
                 event.setCancelled(true);
             }
         }

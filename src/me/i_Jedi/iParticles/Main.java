@@ -1,16 +1,17 @@
 /*TODO LIST
-
+Add sounds to mainInv kill click & to particle selection in killInv
+Add more kill effects
+Clean up code
 * */
 
 package me.i_Jedi.iParticles;
 
 import me.i_Jedi.iParticles.Commands.IParticleCom;
-import me.i_Jedi.iParticles.Listeners.InvClickEvent;
-import me.i_Jedi.iParticles.Listeners.ArrowEvents;
-import me.i_Jedi.iParticles.Listeners.PJoinEvent;
-import me.i_Jedi.iParticles.Listeners.PQuitEvent;
+import me.i_Jedi.iParticles.Listeners.*;
 import me.i_Jedi.iParticles.Particles.ParticleManager;
 import org.bukkit.Bukkit;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -26,6 +27,7 @@ public class Main extends JavaPlugin{
         ParticleManager pm = new ParticleManager(this);
         boolean isArrow = getConfig().getBoolean("arrowParticles");
         boolean isPlayer = getConfig().getBoolean("playerParticles");
+        boolean isKill = getConfig().getBoolean("killParticles");
         for(Player player : Bukkit.getOnlinePlayers()){
             PlayerInfo pInfo = new PlayerInfo(player, this);
 
@@ -59,7 +61,7 @@ public class Main extends JavaPlugin{
         new ArrowEvents(this);
         new InvClickEvent(this);
         new PJoinEvent(this);
-        new PQuitEvent(this);
+        new PKillEvent(this);
 
         //Log
         getLogger().info("iParticles has been enabled!");
@@ -71,4 +73,6 @@ public class Main extends JavaPlugin{
         //Log
         getLogger().info("iParticles has been enabled!");
     }
+
+
 }

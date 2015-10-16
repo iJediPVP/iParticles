@@ -12,7 +12,13 @@ public class Particles {
     //Variables
     private JavaPlugin plugin;
 
-    //Arrow stuff
+    //Constructor
+    public Particles(JavaPlugin plugin){
+        this.plugin = plugin;
+
+    }
+
+    //*************** ARROW ***************
     private HashMap<String, EnumParticle> arrowList = new HashMap<String, EnumParticle>(){{
         put("Firework Spark", EnumParticle.FIREWORKS_SPARK);
         put("Water", EnumParticle.WATER_SPLASH);
@@ -29,10 +35,6 @@ public class Particles {
         put("Splash Potion White", EnumParticle.SPELL_INSTANT);
         put("Splash Potion Purple", EnumParticle.SPELL_WITCH);
         put("CLEAR", null);
-        //put("Villager Happy", EnumParticle.VILLAGER_HAPPY);
-        //put("Villager Angry", EnumParticle.VILLAGER_ANGRY);
-        //put("Enchanting", EnumParticle.ENCHANTMENT_TABLE);
-        //put("Redstone", EnumParticle.REDSTONE);
 
     }};
     private HashMap<String, Float> arrowMod = new HashMap<String, Float>(){{
@@ -69,8 +71,27 @@ public class Particles {
         put("Splash Potion Purple", 3);
         put("CLEAR", 0);
     }};
+    public HashMap<String, EnumParticle> getArrowList(){
+        return arrowList;
+    }
 
-    //Player stuff
+    public Float getArrowMod(String name){
+        return arrowMod.get(name);
+    }
+    public int getArrowCount(String name){
+        return arrowCount.get(name);
+    }
+    public EnumParticle arrowToParticle(String name){
+        if(arrowList.containsKey(name)){
+            return arrowList.get(name);
+        }else{
+
+            return null;
+        }
+    }
+
+
+    //*************** PLAYER ***************
     private HashMap<String, EnumParticle> playerList = new HashMap<String, EnumParticle>(){{
         put("Villager Happy", EnumParticle.VILLAGER_HAPPY);
         put("Enchanting", EnumParticle.ENCHANTMENT_TABLE);
@@ -135,24 +156,6 @@ public class Particles {
 
     }};
 
-    //Constructor
-    public Particles(JavaPlugin plugin){
-        this.plugin = plugin;
-
-    }
-
-    //Get arrow info
-    public HashMap<String, EnumParticle> getArrowList(){
-        return arrowList;
-    }
-    public Float getArrowMod(String name){
-        return arrowMod.get(name);
-    }
-    public int getArrowCount(String name){
-        return arrowCount.get(name);
-    }
-
-    //Get player info
     public HashMap<String, EnumParticle> getPlayerList(){
         return playerList;
     }
@@ -171,20 +174,6 @@ public class Particles {
     public List<EnumParticle> getSpiralPlayerList(){
         return spiralPlayerList;
     }
-
-    //*************** ARROW ***************
-    //Convert string to arrow particle
-    public EnumParticle arrowToParticle(String name){
-        if(arrowList.containsKey(name)){
-            return arrowList.get(name);
-        }else{
-
-            return null;
-        }
-    }
-
-    //*************** PLAYER ***************
-    //Convert string to player particle
     public EnumParticle playerToParticle(String name){
         if(playerList.containsKey(name)){
             return playerList.get(name);
@@ -192,5 +181,64 @@ public class Particles {
             return null;
         }
     }
+
+
+    //*************** KILL ***************
+    private HashMap<String, EnumParticle> killList = new HashMap<String, EnumParticle>(){{
+        put("Villager Happy", EnumParticle.VILLAGER_HAPPY);
+
+        put("CLEAR", null);
+    }};
+    private HashMap<String, Float> killMod = new HashMap<String, Float>(){{
+        put("Villager Happy", 0f);
+
+        put("CLEAR", 0f);
+    }};
+    private HashMap<String, Integer> killCount = new HashMap<String, Integer>(){{
+        put("Villager Happy", 1);
+
+        put("CLEAR", 0);
+    }};
+    private List<EnumParticle> stillKillList = new ArrayList<EnumParticle>(){{
+
+    }};
+    private List<EnumParticle> circleKillList = new ArrayList<EnumParticle>(){{
+        add(EnumParticle.VILLAGER_HAPPY);
+    }};
+    private List<EnumParticle> spiralKillList = new ArrayList<EnumParticle>(){{
+
+    }};
+
+    public HashMap<String, EnumParticle> getKillList(){
+        return  killList;
+    }
+    public Float getKillMod(String name){
+        return killMod.get(name);
+    }
+    public int getKillCount(String name){
+        return killCount.get(name);
+    }
+    public List<EnumParticle> getStillKillList(){
+        return stillKillList;
+    }
+    public List<EnumParticle> getCircleKillList(){
+        return circleKillList;
+    }
+    public List<EnumParticle> getSpiralKillList(){
+        return spiralKillList;
+    }
+    public EnumParticle killToParticle(String name){
+        if(killList.containsKey(name)){
+            return killList.get(name);
+        }else{
+            return null;
+        }
+    }
+
+
+
+
+
+
 
 }

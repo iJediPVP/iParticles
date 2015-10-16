@@ -12,20 +12,28 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.util.Arrays;
 import java.util.List;
 
-public class MainInventory {
+public class KillInventory {
 
     //Variables
-    private Inventory mainInv = Bukkit.createInventory(null, 27, "Particles Menu");
+    private Inventory killInv = Bukkit.createInventory(null, 54, "Kill Particle List");
 
     //Constructor
-    public MainInventory(){
-        //Particles options
-        mainInv.setItem(12, createItem(Material.BOW, (short) 0, ChatColor.GREEN + "" + ChatColor.BOLD + "Arrow Particles", Arrays.asList(ChatColor.GOLD + "Change arrow particles"), false));
-        mainInv.setItem(13, createItem(Material.ARMOR_STAND, (short) 0, ChatColor.AQUA + "" + ChatColor.BOLD + "Player Particles", Arrays.asList(ChatColor.GOLD + "Change player particles"), false));
-        mainInv.setItem(14, createItem(Material.DIAMOND_SWORD, (short) 0, ChatColor.YELLOW + "" + ChatColor.BOLD + "Kill Particles", Arrays.asList(ChatColor.GOLD + "Change kill particles"), false));
+    public KillInventory(){
 
-        //Exit
-        mainInv.setItem(22, createItem(Material.ARROW, (short) 0, ChatColor.RED + "" + ChatColor.BOLD + "EXIT", Arrays.asList(ChatColor.GOLD + "Close this menu"), false));
+        //First row
+
+        //Second row
+        killInv.setItem(11, createItem(Material.EMERALD, (short) 0, ChatColor.LIGHT_PURPLE + "Villager Happy", Arrays.asList(ChatColor.GOLD + "Green villager particles", ChatColor.translateAlternateColorCodes('$', "$6Patterns: $bNone")), false));
+
+        //Third row
+
+        //Fourth row
+
+        //Fifth row
+
+        //Sixth row
+        killInv.setItem(48, createItem(Material.ARROW, (short) 0, ChatColor.GOLD + "" + ChatColor.BOLD + "BACK", Arrays.asList(ChatColor.GOLD + "Return the main menu"), false));
+        killInv.setItem(50, createItem(Material.GLASS, (short) 0, ChatColor.RED + "" + ChatColor.BOLD + "CLEAR", Arrays.asList(ChatColor.GOLD + "Remove your kill particles"), false));
     }
 
     //Create items
@@ -43,13 +51,13 @@ public class MainInventory {
         return iStack;
     }
 
-    //Get inventory
-    public Inventory getInventory(){
-        return mainInv;
-    }
-
     //Get name
     public String getName(){
-        return mainInv.getName();
+        return killInv.getName();
+    }
+
+    //Get inventory
+    public Inventory getInventory() {
+        return killInv;
     }
 }
