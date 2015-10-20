@@ -186,27 +186,54 @@ public class Particles {
     //*************** KILL ***************
     private HashMap<String, EnumParticle> killList = new HashMap<String, EnumParticle>(){{
         put("Villager Happy", EnumParticle.VILLAGER_HAPPY);
-
+        put("Villager Angry", EnumParticle.VILLAGER_ANGRY);
+        put("Enchanting", EnumParticle.ENCHANTMENT_TABLE);
+        put("Potion", EnumParticle.SPELL);
+        put("Potion Rainbow", EnumParticle.SPELL_MOB);
+        put("Heart", EnumParticle.HEART);
+        put("Redstone", EnumParticle.REDSTONE);
+        put("Redstone Rainbow", EnumParticle.REDSTONE);
+        put("Firework Spark", EnumParticle.FIREWORKS_SPARK);
         put("CLEAR", null);
     }};
     private HashMap<String, Float> killMod = new HashMap<String, Float>(){{
         put("Villager Happy", 0f);
-
+        put("Villager Angry", 0f);
+        put("Enchanting", 20f); //Radius
+        put("Potion", 0f);
+        put("Potion Rainbow", 1f); //Color
+        put("Heart", 0f);
+        put("Redstone", 0f);
+        put("Redstone Rainbow", 1f); //Color
+        put("Firework Spark", 0f);
         put("CLEAR", 0f);
     }};
     private HashMap<String, Integer> killCount = new HashMap<String, Integer>(){{
-        put("Villager Happy", 1);
-
+        put("Villager Happy", 2);
+        put("Villager Angry", 1);
+        put("Enchanting", 15);
+        put("Potion", 2);
+        put("Potion Rainbow", 2);
+        put("Heart", 1);
+        put("Redstone", 1);
+        put("Redstone Rainbow", 1);
+        put("Firework Spark", 2);
         put("CLEAR", 0);
     }};
     private List<EnumParticle> stillKillList = new ArrayList<EnumParticle>(){{
 
     }};
     private List<EnumParticle> circleKillList = new ArrayList<EnumParticle>(){{
-        add(EnumParticle.VILLAGER_HAPPY);
+        add(EnumParticle.SPELL);
+        add(EnumParticle.SPELL_MOB);
+        add(EnumParticle.ENCHANTMENT_TABLE);
     }};
     private List<EnumParticle> spiralKillList = new ArrayList<EnumParticle>(){{
-
+        add(EnumParticle.VILLAGER_HAPPY);
+        add(EnumParticle.VILLAGER_ANGRY);
+        add(EnumParticle.HEART);
+        add(EnumParticle.REDSTONE);
+        add(EnumParticle.FIREWORKS_SPARK);
     }};
 
     public HashMap<String, EnumParticle> getKillList(){

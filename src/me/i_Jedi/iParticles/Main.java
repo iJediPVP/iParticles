@@ -10,9 +10,7 @@ import me.i_Jedi.iParticles.Commands.IParticleCom;
 import me.i_Jedi.iParticles.Listeners.*;
 import me.i_Jedi.iParticles.Particles.ParticleManager;
 import org.bukkit.Bukkit;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class Main extends JavaPlugin{

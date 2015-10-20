@@ -23,10 +23,17 @@ public class KillInventory {
         //First row
 
         //Second row
-        killInv.setItem(11, createItem(Material.EMERALD, (short) 0, ChatColor.LIGHT_PURPLE + "Villager Happy", Arrays.asList(ChatColor.GOLD + "Green villager particles", ChatColor.translateAlternateColorCodes('$', "$6Patterns: $bNone")), false));
+        killInv.setItem(11, createItem(Material.ENCHANTMENT_TABLE, (short) 0, ChatColor.LIGHT_PURPLE + "Enchanting", Arrays.asList(ChatColor.GOLD + "Enchantment table particles"), false));
+        killInv.setItem(12, createItem(Material.POTION, (short) 0, ChatColor.DARK_PURPLE + "Potion", Arrays.asList(ChatColor.GOLD + "Potion particles"), false));
+        killInv.setItem(13, createItem(Material.POTION, (short) 0, ChatColor.DARK_PURPLE + "Potion " + ChatColor.translateAlternateColorCodes('$', "$9R$aa$bi$cn$db$eo$fw"), Arrays.asList(ChatColor.GOLD + "Rainbow potion particles"), false));
+        killInv.setItem(14, createItem(Material.REDSTONE_BLOCK, (short) 0, ChatColor.RED + "Redstone", Arrays.asList(ChatColor.GOLD + "Redstone particles"), false));
+        killInv.setItem(15, createItem(Material.REDSTONE_BLOCK, (short) 0, ChatColor.RED + "Redstone " + ChatColor.translateAlternateColorCodes('$', "$9R$aa$bi$cn$db$eo$fw"), Arrays.asList(ChatColor.GOLD + "Rainbow redstone particles"), false));
 
         //Third row
-
+        killInv.setItem(20, createItem(Material.RED_ROSE, (short) 0, ChatColor.RED + "Heart", Arrays.asList(ChatColor.GOLD + "Heart particles"), false));
+        killInv.setItem(21, createItem(Material.EMERALD, (short) 0, ChatColor.LIGHT_PURPLE + "Villager Happy", Arrays.asList(ChatColor.GOLD + "Happy villager particles"), false));
+        killInv.setItem(22, createItem(Material.ROTTEN_FLESH, (short) 0, ChatColor.RED + "Villager Angry", Arrays.asList(ChatColor.GOLD + "Angry villager particles"), false));
+        killInv.setItem(23, createItem(Material.FIREWORK, (short) 0, ChatColor.GOLD + "Firework Spark", Arrays.asList(ChatColor.GOLD + "Firework spark particles"), false));
         //Fourth row
 
         //Fifth row

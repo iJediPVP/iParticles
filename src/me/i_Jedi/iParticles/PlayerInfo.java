@@ -2,7 +2,6 @@ package me.i_Jedi.iParticles;
 
 import me.i_Jedi.iParticles.Particles.Particles;
 import net.minecraft.server.v1_8_R3.EnumParticle;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -254,22 +253,19 @@ public class PlayerInfo {
     }
 
     //Get particle location list
-    // Use makePlayerSpiral & makePlayerCircle for these
     public List<Location> getKillLocations(Location location){
         //Check for pattern
         EnumParticle particle = particles.killToParticle(killParticle);
         if(particles.getStillKillList().contains(particle)){
             List<Location> locList = new ArrayList<>();
-            locList.add(new Location(location.getWorld(), location.getX(), location.getY() + 1, location.getZ()));
+            locList.add(new Location(location.getWorld(), location.getX(), location.getY() + 1.5, location.getZ()));
             return locList;
-
         }else if(particles.getSpiralKillList().contains(particle)){
-            return makePlayerSpiral(location, .75);
+            return makeKillSpiral(location, 1);
 
         }else{ //Default is circle
-            return makePlayerCircle(location, .75);
+            return makeKillCircle(location, 1);
         }
-
     }
 
     //Get kill mod
@@ -277,13 +273,37 @@ public class PlayerInfo {
         return killMod;
     }
 
-    //Get kill cound
+    //Get kill count
     public int getKillCount(){
         return killCount;
     }
 
+    //Spiral
+    public List<Location> makeKillSpiral(Location loc, double radius){
+        List<Location> locList = new ArrayList<>();
+        double y = loc.getY() + .25;
 
+        for(double i = 0.0; i < 540; i += 30){
+            double angle = i * Math.PI / 180;
+            double x = (loc.getX() + radius * Math.cos(angle));
+            double z = (loc.getZ() + radius * Math.sin(angle));
+            y += .075;
+            locList.add(new Location(loc.getWorld(), x, y, z));
+        }
+        return locList;
+    }
 
+    //Circle
+    public List<Location> makeKillCircle(Location loc, double radius){
+        List<Location> locList = new ArrayList<>();
 
+        for(double i = 0.0; i < 360; i += 30){
+            double angle = i * Math.PI / 180;
+            double x = (loc.getX() + radius * Math.cos(angle));
+            double z = (loc.getZ() + radius * Math.sin(angle));
+            locList.add(new Location(loc.getWorld(), x, loc.getY() + 2.25, z));
+        }
+        return locList;
+    }
 
 }
